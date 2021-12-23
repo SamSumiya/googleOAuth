@@ -18,14 +18,12 @@ app.use(express.json()) // So backend can parser JSON data
 app.use(cookieParser()) // set cookies to the frontend
 
 
-
 app.get('/', (req, res) => {
     res.render('index')
 })
 
 app.get('/login', (req, res) => {
     res.render('login')
-
 })
 
 app.post('/login', (req, res) => {
@@ -33,7 +31,8 @@ app.post('/login', (req, res) => {
     async function verify() {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+            audience: process.env.CLIENT_ID,  
+            // Specify the CLIENT_ID of the app that accesses the backend
             // Or, if multiple clients access the backend:
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         });
@@ -71,7 +70,7 @@ function checkAuthenticated(req, res, next) {
     let user = {}
     async function verify() {
         const ticket = await client.verifyIdToken({
-            idToken: token, 
+            idToken: token,
             audiences: process.env.CLIENT_ID
         })
         const payload = ticket.getPayload()
@@ -81,7 +80,7 @@ function checkAuthenticated(req, res, next) {
     }
     verify()
         .then(() => {
-            req.user =user; 
+            req.user = user;
             next()
         })
         .catch(err => {
